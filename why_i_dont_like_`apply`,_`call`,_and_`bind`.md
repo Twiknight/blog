@@ -186,7 +186,7 @@ But we do have approaches to decrease the risk. Here are some I adopt in my dail
   
   nick.say()("hi")
   ```
-  Many would write it this way:
+  You may write it this way:
   ```javascript
   var nick = {
    name: 'nick',
