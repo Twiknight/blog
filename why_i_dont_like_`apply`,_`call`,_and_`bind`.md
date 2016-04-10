@@ -199,7 +199,7 @@ But we do have approaches to decrease the risk. Here are some I adopt in my dail
   
   nick.say()("hi")
   ```
-  But in es-6, with arrow functions (or lambda in other languages)
+  But in es-6, with arrow functions (or lambda in other languages):
   ```javascript
   const nick = {
     name: 'nick',
