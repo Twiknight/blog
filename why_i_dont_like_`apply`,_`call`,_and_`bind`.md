@@ -29,7 +29,7 @@ var tom = {
 max.introduce() // wow, I am Max
 tom.introduce() // hi, I am Tom
 
-max.introduce.apply(bar) //wow, I am Tom
+max.introduce.apply(tom) //wow, I am Tom
 ```
 
 Real world magic, isn't it?
