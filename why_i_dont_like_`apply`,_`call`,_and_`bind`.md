@@ -119,7 +119,7 @@ interface IPerson {
  string introduce();
 }
 ```
-Max and Tim should each have a `introduce` method returns a `string`, or the compiler will raise a compile error.Then we just need to call `tim.introduce()`.
+Max and Tim should each have an `introduce` method returns a `string`, or the compiler will raise a compile error.Then we just need to call `tim.introduce()`.
 
 Or I can use a static method as generic introduction:
 ```csharp
@@ -138,7 +138,8 @@ But human beings are just not that reliable when faced with tremendous complexit
 Interface is one of them. __The Zen of Interface is, to rely on contract rather than implementation.__
 
 The adoption of `apply` acts just opposite to Interface: 
-> You know you can `apply` `introduce` to `tim`, because you know the inner logic of `introduce` and the > inner structure of `tim`.
+> You know you can `apply` `introduce` to `tim`, 
+> because you know the inner logic of `introduce` and the inner structure of `tim`.
 
 JavaScript is weak-typed, and do type-checking in JavaScript is somewhat annoying. Thus it may be impossible to force a contract.
 
@@ -147,7 +148,7 @@ But we do have approaches to decrease the risk. Here are some I adopt in my dail
 * _Explicitly Declare it if I want to reuse something._
 
   For example, if I want `tim` to do self-introduction the same way `max` does.
-  I would choose to make `introduceWithWow(person)` under a shared name-space 
+  I would choose to declare `introduceWithWow(person)` under a shared name-space 
   such as `HumanActions`.
   
 * _Avoid using complicated structures as parameters._ 
@@ -155,7 +156,7 @@ But we do have approaches to decrease the risk. Here are some I adopt in my dail
   A `Person` can have dozens of properties, 
   but we won't use most of them when doing self-introduction. 
   Moreover, we want `introduce` work for all person-like objects.
-  So I would declare `introduceWithWow(name)` to adopt a `string` rather than a `Person`.
+  So I would declare `introduceWithWow(name)` to accept a `string` rather than a `Person`.
   
 * _Use ECMAScript-2016 and Babel._
 
