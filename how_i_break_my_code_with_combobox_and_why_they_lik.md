@@ -34,18 +34,107 @@ Then I finished it without any effort:
 public class ViewModel : INotifyPropertyChanged
 {
   private Dictionary<string, string> cityBook;
-  private City selectedCity;
-  private string selectedCountry;
+  private string selectedCity;
+  private string selectedArea;
   
-  public IEnumerable<string> Countries
+  public string SelectedCity
   {
     get 
     {
-      return cityBook.values;
+      return selectedCity;
+    }
+    set
+    {
+      selectedCity = value;
+      NotifyPropertyChanged("SelectedCity");
     }
   }
-  public List<City> Cities{}
+  
+  public string SelectedArea
+  {
+    get
+    {
+      return selectedArea;
+    }
+    set
+    {
+      selectedArea = value;
+      NotifyPropertyChanged("SelectedArea");
+    }
+  }
+    
+  public IEnumerable<string> Areas
+  {
+    get 
+    {
+      return cityBook.Values.Distinct();
+    }
+  }
+  
+  public IEnumerable<City> Cities
+  {
+    get
+    {
+      return cityBook.Where(i => i.Value == SelectedArea)
+                  .Select(i => i.Key);
+    }
+  }
+  //Event notifiers and other methods ....
+  ...
 }
 ```
+Let me make a brief explanation about what I did:
+ 1. I extracted the data to a `Dictionary`, setting city name as `Key` and area name as `Value`;
+ 2. I generated the fields for holding selected values;
+ 3. I generated the display data set for Combo Box items-binding: 
+    One for all the distinct Areas, the other for all the cities filtered by selected area;
+    
+But, the above code won't work at all, 
+because when you select an area, WPF won't automatically inform the change on `Cities`.
 
+Though it looks somehow wired, I add it to setter of `SelectedArea`.
+```csharp
+  public string SelectedArea
+  {
+    get { ... }
+    set
+    {
+      selectedArea = value;
+      NotifyPropertyChanged("SelectedArea", "Cities");
+    }
+  }
+```
+Here I was fully convinced it won't cause trouble, since each select on area is sure to trigger a change on city.
 
+If I stopped here, it would be fine.  
+But one day, my PM came to me,  
+ "Hey, tk. Our customers enjoy your city-area selectors a lot, except they want to add a small feature."  
+ "So..What do they want?"  
+ "Can you make the city-drop filled with all the cities if no area is selected?"  
+ "Sure, that's easy!" 
+ To make it, I just need to replace `i => i.Value == SelectedArea` with `i => i.Value.Contains(SelectedArea)`.  
+ "Good, and when they select a city directly from the city-drop, the area-drop should show the correct area."
+ 
+It is still easy, right?
+When we select city, just set the area as well, :)
+
+```csharp
+public string SelectedCity
+  {
+    get { ... }
+    set
+    {
+      string currentArea = selectedArea;
+      cityBook.tryGet(value, out currentArea);
+      if( currentArea != selectedArea)
+      {
+        selectedCity = currentCity;
+        NotifyPropertyChanged("SelectedArea");
+        NotifyPropertyChanged("Cities");
+      }
+      
+      selectedCity = value;
+      NotifyPropertyChanged("SelectedCity");
+    }
+  }
+```
