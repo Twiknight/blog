@@ -125,7 +125,7 @@ public string SelectedCity
     set
     {
       string currentArea = selectedArea;
-      cityBook.tryGet(value, out currentArea);
+      cityBook.tryGetValue(value, out currentArea);
       if( currentArea != selectedArea)
       {
         selectedCity = currentCity;
