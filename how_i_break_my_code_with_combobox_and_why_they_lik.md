@@ -124,22 +124,49 @@ public string SelectedCity
     get { ... }
     set
     {
+      selectedCity = value;
+      NotifyPropertyChanged("SelectedCity");
+      
       if (string.IsNullOrEmpty(value))
       {
           return;
       }
-      
-      string currentArea = selectedArea;
+      string currentArea = string.Empty;
       cityBook.tryGetValue(value, out currentArea);
-      if( currentArea != selectedArea)
-      {
-        selectedCity = currentCity;
-        NotifyPropertyChanged("SelectedArea");
-        NotifyPropertyChanged("Cities");
-      }
-      
-      selectedCity = value;
-      NotifyPropertyChanged("SelectedCity");
+      SelectedAera = currentArea;
     }
   }
 ```
+Now you may feel some bad smell. 
+I'm copying myself in the setter, and the code is really unreadable.
+
+And it would cause stack overflow if change city from "Shanghai" to "Nanjing".
+
+Why? 
+A `ComboBox` would try to reset the `SelectedItem` binding to it, whenever a property change on its binding `ItemSource` is detected.
+
+See, I had to know what's going on inside the `ComboBox` Component,
+if I want to make it work.
+
+Actually, following lines will work:
+```csharp
+set
+{
+  if (string.IsNullOrEmpty(value))
+  {
+      return;
+  }
+
+  string currentArea = SelectedArea;
+  cityBook.TryGetValue(value, out currentArea);
+  if (currentArea != SelectedArea)
+  {
+      SelectedArea = currentArea;
+  }
+
+  selectedCity = value;
+  NotifyPropertyChanged("SelectedCity");
+}
+```
+
+But it's twisted. As well, I need to know the details of `ComboBox`.
