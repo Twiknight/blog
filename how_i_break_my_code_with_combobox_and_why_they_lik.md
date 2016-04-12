@@ -124,6 +124,11 @@ public string SelectedCity
     get { ... }
     set
     {
+      if (string.IsNullOrEmpty(value))
+      {
+          return;
+      }
+      
       string currentArea = selectedArea;
       cityBook.tryGetValue(value, out currentArea);
       if( currentArea != selectedArea)
