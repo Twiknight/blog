@@ -1,4 +1,4 @@
-# How I break my code with Combo Box and why they like Redux
+# How I break my code with Combo Box
 
 ### TL;DR
  This is a story about my experience of anti-pattern programming. And I'll share my opinion on how the idea of Redux helps avoid such mistakes.
@@ -219,7 +219,7 @@ Moreover, if you replace with one or a few lines, you don't need to modify multi
 This is important, modifying one part is better than multiple in most cases.
 
 Maybe you've found, write something easy to delete is not on the opposite of OCP.
-When you write something easy to delete, it is somehow a 
+It is a 
 
 
 
