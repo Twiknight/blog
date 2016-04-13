@@ -1,7 +1,7 @@
 # How I break my code with Combo Box
 
 ### TL;DR
- This is a story about my experience of anti-pattern programming. And I'll share my opinion on how the idea of Redux helps avoid such mistakes.
+ This is a story about my experience of anti-pattern programming. And I'll share my opinion on how to avoid such mistakes.
 
 ### Story: the nightmare with Combo Box
 
@@ -208,8 +208,9 @@ Some developers may hold a misunderstanding of the Open-Close Principle. They ma
 
 To some degree, Maintainable code is code easy to delete.
 OCP only helps when you can predict a certain kind of extension. 
-For those unexpected (most cases for business logic), it is often necessary to make your hands dirty. 
-([here is something interesting to read about delete and extend](http://programmingisterrible.com/post/139222674273/write-code-that-is-easy-to-delete-not-easy-to))
+It doesn't mention how to handle predictable modifications and discards.
+But we often need to handle such cases for some business reason.
+That's the occasion where it is necessary to get hands dirty.
 
 But how to define if a line is easy to delete or not?
 In my opinion, when it is the time you delete or replace one or a couple lines, you know what will happen.
@@ -219,7 +220,38 @@ Moreover, if you replace with one or a few lines, you don't need to modify multi
 This is important, modifying one part is better than multiple in most cases.
 
 Maybe you've found, write something easy to delete is not on the opposite of OCP.
-It is a 
+It is supplement to OCP, it handles with things OCP didn't tell us. 
+([here is something interesting to read about delete and extend](http://programmingisterrible.com/post/139222674273/write-code-that-is-easy-to-delete-not-easy-to))
+
+### Back to my Combo Boxes
+
+If I say here, I could avoid the mess when I wrote the first line with my Combo Boxes.
+ I must be lying.
+
+Actually, I even wouldn't what would happen when I slightly sacrificed the Single Responsibility Principle to my convenience.
+But I had a chance to make things work well when implementing the new requirements.
+A refactory on how I handle the dependencies of different properties would totally avoid such a pitfall. Thus my code will be easier to delete.
+
+__The main problem I faced was that Properties (or Combo Boxes) have twisted relationship.__ 
+It forced me to take care of how they related each other in the setter.
+
+However, Let's consider the nature of GUI. GUI works in two way:
+ 1. Present data;
+ 2. Accept user input;
+
+__We can say that, what presented on GUI reflects the state of a data set;
+ Then user inputs changes the state of the data set.__
+
+It is totally nothing to do with the relationship of the dependencies.
+The GUI  program is like one mapping from the collection of data to a collection of pixels.
+That is, if I have knowledge of the data, I should know what the view displays.
+That's why we create getters for binding props.
+
+Then the setters, they accept user inputs and map them back to data.
+That's it, should I handle the relationship in the setters?
+If I treat the setters as operators on data rather than property setter, it is OK. 
+But if I do so, I should not notify changes inside the setters.
+
 
 
 
