@@ -188,7 +188,7 @@ But we freed our list-view, it's now decoupled from the business logic.
  
 If you can understand the above example, now you know how M-V-VM works.
 
-![mvvm1](./assets/mvvm_data_flow.png)
+![mvvm1](./assets/mvvm_dataflow.png)
 
 The data function is a View-Model in our example. 
 It turns the data from model into a special structure the View can accept.
