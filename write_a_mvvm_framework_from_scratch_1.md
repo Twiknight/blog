@@ -177,10 +177,10 @@ function items(student){
   
   let result = []
   result.push(
-    new item('Name', `${student['first-name']} ${student['last-name']}`))
-  result.push(new item('Grade', student['grade']))
-  result.push(new item('Height', `${student['height'] * 0.01}m`))
-  result.push(new item('Weight', `${student['weight']}kg`))
+    item('Name', `${student['first-name']} ${student['last-name']}`))
+  result.push(item('Grade', student['grade']))
+  result.push(item('Height', `${student['height'] * 0.01}m`))
+  result.push(item('Weight', `${student['weight']}kg`))
 }
 ```
 The function `items` is not reusable. 
