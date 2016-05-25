@@ -209,3 +209,52 @@ But we do have approaches to decrease the risk. Here are some I adopt in my dail
     }
   }
   ```
+* _Avoid relying on `this`_:
+  
+  This sounds CRAZY.
+  But it surely works. 
+  
+  Considering why we introduce 'apply', 'call' and 'bind',
+  we can avoid most of the pitfalls by discarding `this`.
+  
+  In most functional programming languages (like Haskell), they don't use `this` at all. 
+  It's also possible to avoid `this` in JavaScript in most of your customer code.
+  
+  Let's take the self-intro example:
+  ```JavaScript
+  //the original version with this
+  const max = {
+   name: 'Max',
+   introduce: function () {
+     return 'wow, I am' + this.name
+   }
+  }
+  
+  //Let's see how we make it without this
+  const prop = (_, id) => _[id]
+  
+  const introduce = (_introduce, person) => _introduce(prop(person, 'name'))
+  
+  const introduceWithWow = (name) => `wow, I am ${name}`
+  
+  const max = { name: 'Max' }
+  
+  const intro = introduce(introduceWithWow, max) //wow, I am Max
+  
+  //And it's easy to reuse it with Tom
+  const tom = { name: 'Tom' }
+  
+  const wowTom = introduce(introduceWithWow, tom) //wow, I am Tom
+  ```
+  
+  In the functional styled version, 
+  `max` and `tom` are not persons that can introduce themselves,
+  instead they are data.
+  This procedure is a little similar with the assembly lines in factories.
+  Functions are machines, and data are materials.
+  In factories, materials in, and products out.
+  In our program, raw data in, and results out.
+  
+  Of course, there are functional libs (eg. [Ramda](http://ramdajs.com/0.21.0/index.html)) or
+  and DSLs (eg. [ELM](http://elm-lang.org/) and [purescript](http://www.purescript.org/)) that help
+  developers write functional styled code in JavaScript.
