@@ -1,6 +1,6 @@
-###
-This is the blog of Twikinght...
+Twiknight's Blog here, with anything about coding.
 
-Err, I moved here from zhihu for markdown supprot.
 
-Link: https://twiknight.gitbooks.io/blog/content/
+
+_want to know more about Twiknight? 
+See his site on Github -> [here](https://Twiknight.github.io)_
